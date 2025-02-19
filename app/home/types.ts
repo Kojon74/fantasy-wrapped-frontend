@@ -1,0 +1,44 @@
+export type Game = {
+  game_key: string;
+  game_id: string;
+  name: string;
+  code: string;
+  type: string;
+  url: string;
+  season: string;
+  is_registration_over: string;
+  is_game_over: string;
+  is_offseason: string;
+  leagues: League[];
+};
+
+export type League = {
+  league_key: string;
+  league_id: string;
+  name: string;
+  url: string;
+  logo_url: string;
+  draft_status: string;
+  num_teams: string;
+  edit_key: string;
+  weekly_deadline: string;
+  league_update_timestamp: string;
+  scoring_type: string;
+  league_type: string;
+  renew: string;
+  renewed: string;
+  felo_tier: string;
+  iris_group_chat_id: string;
+  allow_add_to_dl_extra_pos: string;
+  is_pro_league: string;
+  is_cash_league: string;
+  current_week: string;
+  start_week: string;
+  start_date: string;
+  end_week: string;
+  end_date: string;
+  is_finished: string;
+  is_plus_league: string;
+  game_code: string;
+  season: string;
+};
