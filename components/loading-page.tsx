@@ -1,9 +1,15 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Layout } from "./layout"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Layout } from "./NavButtons";
 
 interface LoadingPageProps {
-  isMobile?: boolean
+  isMobile?: boolean;
 }
 
 export function LoadingPage({ isMobile = false }: LoadingPageProps) {
@@ -19,6 +25,5 @@ export function LoadingPage({ isMobile = false }: LoadingPageProps) {
         </CardContent>
       </Card>
     </Layout>
-  )
+  );
 }
-

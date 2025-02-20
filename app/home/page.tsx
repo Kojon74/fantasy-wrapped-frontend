@@ -8,10 +8,12 @@ const cleanGames = (games: any[]) =>
   games.map(
     (game) =>
       Object.fromEntries(
-        Object.entries(game).map(([key, value]) => [
-          key,
-          key !== "leagues" ? value[0] : cleanLeagues(value[0].league),
-        ])
+        Object.entries(game)
+          .map(([key, value]) => [
+            key,
+            key !== "leagues" ? value[0] : cleanLeagues(value[0].league),
+          ])
+          .sort((a, b) => parseInt(b.season) - parseInt(a.season))
       ) as Game
   );
 
@@ -25,8 +27,6 @@ const cleanLeagues = (leagues: any[]) =>
 export default async function UserHomePage() {
   const session = await getServerSession(authOptions);
 
-  console.log(session);
-
   if (!session || !session.access_token) return <p>Not logged in</p>;
 
   try {
@@ -38,7 +38,6 @@ export default async function UserHomePage() {
       },
       cache: "no-store",
     });
-    console.log(response);
 
     if (!response.ok) throw new Error("Failed to letch leagues");
     const xml = await response.text();

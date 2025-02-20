@@ -14,10 +14,7 @@ import { Game } from "./types";
 type Props = { games: Game[] };
 
 export default function UserHomeContent({ games }: Props) {
-  // const { data: session, status } = useSession();
   const router = useRouter();
-
-  console.log(games[0].leagues);
 
   const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
 
@@ -39,48 +36,38 @@ export default function UserHomeContent({ games }: Props) {
           >
             <CardHeader>
               <CardTitle>
-                {game.code.toUpperCase()} {game.season}-
-                {parseInt(game.season) + 1}
+                {`${game.code.toUpperCase()} ${game.season} -
+                ${parseInt(game.season) + 1}`}
               </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {game.leagues.map((league) => (
-                <Card key={league.league_key}>
-                  <CardHeader>
-                    <CardTitle>{league.name}</CardTitle>
-                  </CardHeader>
-                  <Button
-                    onClick={() => handleLeagueSelect(league.league_key)}
-                    className="w-full bg-white text-purple-600 hover:bg-gray-100"
-                  >
-                    View Wrapped
-                  </Button>
-                </Card>
-              ))}
-            </CardContent>
-          </Card>
-        ))}
-        {/* {mockLeagues.map((league) => (
-          <Card
-            key={league.id}
-            className="bg-white/10 backdrop-blur-lg border-none text-white"
-          >
-            <CardHeader>
-              <CardTitle>{league.name}</CardTitle>
               <CardDescription className="text-gray-200">
-                {league.sport}
+                {game.name}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button
-                onClick={() => handleLeagueSelect(league.id)}
-                className="w-full bg-white text-purple-600 hover:bg-gray-100"
-              >
-                View Wrapped
-              </Button>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {game.leagues.map((league) => (
+                  <Card
+                    key={league.league_key}
+                    className="bg-white/20 border-none"
+                  >
+                    <CardHeader>
+                      <CardTitle className="text-lg">{league.name}</CardTitle>
+                      {/* <CardDescription className="text-gray-200">Team: {league.name}</CardDescription> */}
+                    </CardHeader>
+                    <CardContent>
+                      <Button
+                        onClick={() => handleLeagueSelect(league.league_key)}
+                        className="w-full bg-white text-purple-600 hover:bg-gray-100"
+                      >
+                        View Wrapped
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </CardContent>
           </Card>
-        ))} */}
+        ))}
       </div>
     </div>
   );
