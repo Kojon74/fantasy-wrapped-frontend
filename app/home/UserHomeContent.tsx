@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,11 +15,8 @@ type Props = { games: Game[] };
 export default function UserHomeContent({ games }: Props) {
   const router = useRouter();
 
-  const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
-
   const handleLeagueSelect = (leagueKey: string) => {
-    // setSelectedLeague(leagueId);
-    // router.push(`/loading?leagueId=${leagueId}`);
+    router.push(`/stats/${leagueKey}`);
   };
 
   return (

@@ -37,6 +37,7 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       // Send properties to the client, like an access_token and user id from a provider.
       (session as any).access_token = token.access_token;
+      (session as any).refresh_token = token.refresh_token;
 
       return session;
     },
