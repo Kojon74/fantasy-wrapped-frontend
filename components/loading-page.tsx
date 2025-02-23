@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Layout } from "./NavButtons";
+import { Layout } from "../app/stats/[leagueKey]/NavButtons";
 
 interface LoadingPageProps {
   isMobile?: boolean;
