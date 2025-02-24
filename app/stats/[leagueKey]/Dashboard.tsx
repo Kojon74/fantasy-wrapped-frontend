@@ -6,13 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { NavButtons } from "./NavButtons";
 import { Teams, Metric } from "./types";
+import StatsContent from "./StatsContent";
 
 interface Props {
   teams: Teams;
@@ -69,24 +69,7 @@ export function Dashboard({ teams, metrics, isMobile = false }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ol className="space-y-4">
-            {currentMetric.stats.map((stat, i) => (
-              <li key={i} className="flex items-center space-x-4">
-                <span className="text-xl font-bold">{i + 1}</span>
-                <Avatar>
-                  <AvatarImage
-                    src={teams[stat.key].image}
-                    alt={teams[stat.key].name}
-                  />
-                  <AvatarFallback>{teams[stat.key].name[0]}</AvatarFallback>
-                </Avatar>
-                <span className="flex-grow">{teams[stat.key].name}</span>
-                <span className="text-sm bg-white/20 px-2 py-1 rounded">
-                  {stat.value}
-                </span>
-              </li>
-            ))}
-          </ol>
+          <StatsContent stats={currentMetric.stats} teams={teams} />
         </CardContent>
       </Card>
       <div className="mt-8 flex justify-center items-center space-x-2">
