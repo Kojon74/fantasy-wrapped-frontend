@@ -16,9 +16,9 @@ export function NavButtons({
   onShare,
 }: Props) {
   return (
-    <div className="sticky bottom-0 bg-black bg-opacity-50 backdrop-blur-sm">
+    <div className="fixed bottom-0 left-0 w-full bg-black bg-opacity-50 backdrop-blur-sm">
       <div
-        className={`flex justify-between items-center py-4 ${
+        className={`max-w-6xl mx-auto flex justify-between items-center py-4 ${
           isMobile ? "px-4" : "px-8"
         }`}
       >

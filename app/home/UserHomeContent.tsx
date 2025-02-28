@@ -20,11 +20,11 @@ export default function UserHomeContent({ games }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex flex-col items-center p-4 pt-28">
       <h1 className="text-4xl font-bold mb-8 text-white">
         Your Fantasy Leagues
       </h1>
-      <div className="grid gap-4 w-full max-w-md">
+      <div className="grid gap-4 w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         {games.map((game) => (
           <Card
             key={game.game_key}
@@ -47,7 +47,9 @@ export default function UserHomeContent({ games }: Props) {
                     className="bg-white/20 border-none"
                   >
                     <CardHeader>
-                      <CardTitle className="text-lg">{league.name}</CardTitle>
+                      <CardTitle className="text-lg text-white">
+                        {league.name}
+                      </CardTitle>
                       {/* <CardDescription className="text-gray-200">Team: {league.name}</CardDescription> */}
                     </CardHeader>
                     <CardContent>

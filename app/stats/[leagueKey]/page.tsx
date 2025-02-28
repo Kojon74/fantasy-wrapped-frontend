@@ -10,11 +10,8 @@ export default async function StatsPage({
   const { leagueKey } = params;
 
   return (
-    <div>
-      <h1>Fantasy Wrapped</h1>
-      <Suspense fallback={<Loading progress={0} />}>
-        <StatsDisplay leagueKey={leagueKey} />
-      </Suspense>
-    </div>
+    <Suspense fallback={<Loading progress={0} />}>
+      <StatsDisplay leagueKey={leagueKey} />
+    </Suspense>
   );
 }

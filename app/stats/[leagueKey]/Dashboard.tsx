@@ -49,46 +49,41 @@ export function Dashboard({ metrics, isMobile = false }: Props) {
   };
 
   return (
-    <div className={`${isMobile ? "px-4" : "px-8"}`}>
-      <div className="flex justify-between items-center mb-8">
-        <Button
-          variant="ghost"
-          onClick={handleBackToHome}
-          className="absolute top-4 right-4 text-white"
-        >
-          <X className="h-6 w-6" />
-        </Button>
+    <div className="h-screen bg-red-500 pt-28">
+      <div className="max-w-6xl mx-auto">
+        <Card className="mx-6 bg-white/10 backdrop-blur-lg text-white border-none">
+          <CardHeader>
+            <CardTitle className="text-3xl font-bold">
+              {currentMetric.title}
+            </CardTitle>
+            <CardDescription className="text-xl text-gray-200">
+              {currentMetric.description}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {currentMetric.type === "list" ? (
+              <ListStats data={currentMetric.data} />
+            ) : (
+              <GridStats data={currentMetric.data} />
+            )}
+          </CardContent>
+        </Card>
       </div>
-      <Card className="bg-white/10 backdrop-blur-lg text-white border-none">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold">
-            {currentMetric.title}
-          </CardTitle>
-          <CardDescription className="text-xl text-gray-200">
-            {currentMetric.description}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {currentMetric.type === "list" ? (
-            <ListStats data={currentMetric.data} />
-          ) : (
-            <GridStats data={currentMetric.data} />
-          )}
-        </CardContent>
-      </Card>
-      <div className="mt-8 flex justify-center items-center space-x-2">
-        {metrics.map((_, index) => (
-          <div
-            key={index}
-            className={`h-2 w-2 rounded-full ${
-              index === currentMetricIndex ? "bg-white" : "bg-white/50"
-            }`}
-          />
-        ))}
+      <div className="fixed bottom-24 w-full">
+        <div className="flex justify-center items-center space-x-2">
+          {metrics.map((_, index) => (
+            <div
+              key={index}
+              className={`h-2 w-2 rounded-full ${
+                index === currentMetricIndex ? "bg-white" : "bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
+        <p className="text-center text-white ">
+          {currentMetricIndex + 1} of {metrics.length}
+        </p>
       </div>
-      <p className="text-center text-white mt-4">
-        {currentMetricIndex + 1} of {metrics.length}
-      </p>
       <NavButtons
         onPrevious={handlePrevious}
         onNext={handleNext}

@@ -12,11 +12,7 @@ function SignInOutButton({}: Props) {
 
   const onSignInOut = () => {};
   return (
-    <Button
-      onClick={onSignInOut}
-      variant="outline"
-      className="text-white border-white hover:bg-white hover:text-purple-600"
-    >
+    <Button onClick={onSignInOut} className="bg-white hover:text-purple-600">
       {isAuthenticated ? "Sign Out" : "Sign In"}
     </Button>
   );
