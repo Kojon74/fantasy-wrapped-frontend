@@ -18,6 +18,6 @@ export default async function StatsDisplay({ leagueKey }: Props) {
     }
   );
   if (!response.ok) throw new Error("HTTP status " + response.status);
-  const { teams, metrics } = await response.json();
-  return <Dashboard teams={teams} metrics={metrics} />;
+  const { metrics } = await response.json();
+  return <Dashboard metrics={metrics} />;
 }

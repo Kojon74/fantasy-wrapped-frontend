@@ -1,36 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Teams } from "./types";
-import { Fragment } from "react";
+type Props = { headers: string[]; data: any[][] };
 
-type Props = { stats: any; teams: Teams; teamOrder?: string[] };
-
-export default function StatsContent({ stats, teams }: Props) {
-  if (!stats.team_order)
-    return (
-      <ol className="space-y-4">
-        {stats.map((stat, i) => (
-          <li key={i} className="flex items-center space-x-4">
-            <span className="text-xl font-bold">{i + 1}</span>
-            <Avatar>
-              <AvatarImage
-                src={!!stat.image ? stat.image : teams[stat.key].image}
-                alt={!!stat.name ? stat.name : teams[stat.key].name}
-              />
-              <AvatarFallback>
-                {!!stat.name ? stat.name : teams[stat.key].name}
-              </AvatarFallback>
-            </Avatar>
-            <span className="flex-grow">
-              {!!stat.name ? stat.name : teams[stat.key].name}
-            </span>
-            <span className="text-sm bg-white/20 px-2 py-1 rounded">
-              {stat.value}
-            </span>
-          </li>
-        ))}
-      </ol>
-    );
-
+export default function GridStats({ headers, data }: Props) {
   const getRecordColor = (percentage: number) => {
     if (percentage === 1) return "bg-grid-700";
     if (percentage >= 0.8) return "bg-grid-600";

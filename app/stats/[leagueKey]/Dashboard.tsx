@@ -11,16 +11,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { NavButtons } from "./NavButtons";
-import { Teams, Metric } from "./types";
-import StatsContent from "./StatsContent";
+import { Metric } from "./types";
+import ListStats from "./ListStats";
+import GridStats from "./GridStats";
 
 interface Props {
-  teams: Teams;
   metrics: Metric[];
   isMobile?: boolean;
 }
 
-export function Dashboard({ teams, metrics, isMobile = false }: Props) {
+export function Dashboard({ metrics, isMobile = false }: Props) {
   const [currentMetricIndex, setCurrentMetricIndex] = useState(0);
   const currentMetric = metrics[currentMetricIndex];
   const router = useRouter();
@@ -69,7 +69,11 @@ export function Dashboard({ teams, metrics, isMobile = false }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <StatsContent stats={currentMetric.stats} teams={teams} />
+          {currentMetric.type === "list" ? (
+            <ListStats data={currentMetric.data} />
+          ) : (
+            <GridStats data={currentMetric.data} />
+          )}
         </CardContent>
       </Card>
       <div className="mt-8 flex justify-center items-center space-x-2">

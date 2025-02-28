@@ -1,9 +1,14 @@
-export type Teams = {
-  [key: string]: { name: string; nickname: string; image: string };
+export type Data = {
+  rank: number;
+  image_url: string;
+  main_text: string;
+  sub_text?: string;
+  stat?: string;
 };
 
 export type Metric = {
   title: string;
   description: string;
-  stats: { key: string; value: string }[];
+  type: string; // TODO: Make enum
+  data: Data[];
 };
