@@ -11,12 +11,9 @@ export default async function StatsDisplay({ leagueKey }: Props) {
     Authorization: `Bearer ${session.access_token}`,
     "X-Refresh-Token": session.refresh_token, // Custom header for refresh token
   };
-  const response = await fetch(
-    `http://127.0.0.1:5000/api/get-fantasy-data?league_key=${leagueKey}`,
-    {
-      headers,
-    }
-  );
+  const response = await fetch(`http://127.0.0.1:8000/wrapped/${leagueKey}`, {
+    headers,
+  });
   if (!response.ok) throw new Error("HTTP status " + response.status);
   const { metrics } = await response.json();
   return <Dashboard metrics={metrics} />;

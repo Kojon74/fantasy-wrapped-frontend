@@ -50,3 +50,6 @@ body {
   animation: gradient 15s ease infinite;
 }
 
+td {
+  @apply py-2 px-2
+}

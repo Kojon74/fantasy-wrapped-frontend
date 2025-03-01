@@ -5,10 +5,10 @@ type Props = { data: Data[] };
 
 export default function ListStats({ data }: Props) {
   return (
-    <ol className="space-y-4">
+    <table className="w-full table-auto">
       {data.map((row) => (
         <ListStatsRow row={row} />
       ))}
-    </ol>
+    </table>
   );
 }
