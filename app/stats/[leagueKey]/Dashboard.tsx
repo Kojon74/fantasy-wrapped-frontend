@@ -20,9 +20,18 @@ interface Props {
   isMobile?: boolean;
 }
 
+const backgroundColors = [
+  "from-blue-500 via-purple-500 to-blue-500",
+  "from-yellow-400 via-green-500 to-yellow-400",
+  "from-red-600 via-orange-500 to-red-600",
+  "from-purple-600 via-pink-500 to-purple-600",
+  "from-red-700 via-gray-900 to-red-700",
+];
+
 export function Dashboard({ metrics, isMobile = false }: Props) {
   const [currentMetricIndex, setCurrentMetricIndex] = useState(0);
   const currentMetric = metrics[currentMetricIndex];
+  const currentBackground = backgroundColors[currentMetricIndex];
   const router = useRouter();
 
   // useEffect(() => {
@@ -49,7 +58,7 @@ export function Dashboard({ metrics, isMobile = false }: Props) {
   };
 
   return (
-    <div className="h-screen bg-red-500 pt-28">
+    <div className={`h-screen pt-28 bg-gradient-to-br ${currentBackground}`}>
       <div className="max-w-6xl mx-auto">
         <Card className="mx-6 bg-white/10 backdrop-blur-lg text-white border-none">
           <CardHeader>
@@ -69,21 +78,18 @@ export function Dashboard({ metrics, isMobile = false }: Props) {
           </CardContent>
         </Card>
       </div>
-      <div className="fixed bottom-24 w-full">
-        <div className="flex justify-center items-center space-x-2">
-          {metrics.map((_, index) => (
-            <div
-              key={index}
-              className={`h-2 w-2 rounded-full ${
-                index === currentMetricIndex ? "bg-white" : "bg-white/50"
-              }`}
-            />
-          ))}
-        </div>
-        <p className="text-center text-white ">
-          {currentMetricIndex + 1} of {metrics.length}
-        </p>
+      {/* <div className="fixed bottom-24 w-full"> */}
+      <div className="fixed bottom-24 w-full flex justify-center items-center space-x-2">
+        {metrics.map((_, index) => (
+          <div
+            key={index}
+            className={`h-2 w-2 rounded-full ${
+              index === currentMetricIndex ? "bg-white" : "bg-white/50"
+            }`}
+          />
+        ))}
       </div>
+      {/* </div> */}
       <NavButtons
         onPrevious={handlePrevious}
         onNext={handleNext}
