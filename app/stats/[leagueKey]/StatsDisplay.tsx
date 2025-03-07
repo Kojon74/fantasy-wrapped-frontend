@@ -1,10 +1,14 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Dashboard } from "@/app/stats/[leagueKey]/Dashboard";
 import { getServerSession } from "next-auth";
+import { dummyData } from "@/dummyData";
 
 type Props = { leagueKey: string };
 
 export default async function StatsDisplay({ leagueKey }: Props) {
+  const useDummyData = true;
+  if (useDummyData) return <Dashboard metrics={dummyData} />;
+
   const session = await getServerSession(authOptions);
   const headers = {
     "Content-Type": "application/json",
@@ -16,5 +20,6 @@ export default async function StatsDisplay({ leagueKey }: Props) {
   });
   if (!response.ok) throw new Error("HTTP status " + response.status);
   const { metrics } = await response.json();
+  console.log(JSON.stringify(metrics));
   return <Dashboard metrics={metrics} />;
 }

@@ -1,4 +1,4 @@
-type Props = { headers: string[]; data: any[][] };
+type Props = { headers: string[]; data: string[][] };
 
 export default function GridStats({ headers, data }: Props) {
   const getRecordColor = (percentage: number) => {
@@ -12,28 +12,40 @@ export default function GridStats({ headers, data }: Props) {
   };
 
   return (
-    <div className="grid grid-cols-[auto,repeat(8,1fr)] gap-1 text-xs">
-      <div className="font-bold p-2">Team \ Schedule</div>
-      {stats.team_order.map((teamKey) => (
-        <div key={teamKey} className="font-bold p-2 text-center">
-          {teams[teamKey].name}
-        </div>
-      ))}
-      {stats.team_order.map((teamKey, i: number) => (
-        <Fragment key={i}>
-          <div className="font-bold p-2">{teams[teamKey].name}</div>
-          {stats.team_order.map((_, j: number) => (
-            <div
-              key={`${teamKey}-${j}`}
-              className={`p-2 text-center text-white ${getRecordColor(
-                stats.alternative_reality_matrix[i][j]
-              )}`}
-            >
-              {stats.alternative_reality_matrix[i][j]}
-            </div>
-          ))}
-        </Fragment>
-      ))}
+    <div>
+      <h6 className="text-center text-lg font-bold ml-28">Team Schedule</h6>
+      <div
+        className="grid gap-1"
+        style={{
+          gridTemplateColumns: `repeat(${headers.length + 1}, 1fr)`,
+          gridTemplateRows: `repeat(${headers.length + 1}, 1fr)`,
+        }}
+      >
+        <div></div>
+        {headers.map((teamName) => (
+          <div
+            key={teamName}
+            className="font-bold p-2 text-center text-gray-200"
+          >
+            {teamName}
+          </div>
+        ))}
+        {headers.map((teamName, i: number) => (
+          <>
+            <div className="font-bold text-gray-200">{teamName}</div>
+            {headers.map((_, j: number) => (
+              <div
+                key={`${teamName}-${j}`}
+                className={`flex items-center justify-center p-2 text-white rounded-sm ${getRecordColor(
+                  parseFloat(data[i][j])
+                )}`}
+              >
+                {data[i][j]}
+              </div>
+            ))}
+          </>
+        ))}
+      </div>
     </div>
   );
 }

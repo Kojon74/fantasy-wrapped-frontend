@@ -10,5 +10,6 @@ export type Metric = {
   title: string;
   description: string;
   type: string; // TODO: Make enum
-  data: Data[];
+  headers?: string[];
+  data: Data[] | string[][];
 };

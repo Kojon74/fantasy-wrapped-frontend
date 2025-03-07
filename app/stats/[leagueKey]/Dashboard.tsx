@@ -6,10 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { X } from "lucide-react";
 import { NavButtons } from "./NavButtons";
 import { Metric } from "./types";
 import ListStats from "./ListStats";
@@ -32,11 +29,6 @@ export function Dashboard({ metrics, isMobile = false }: Props) {
   const [currentMetricIndex, setCurrentMetricIndex] = useState(0);
   const currentMetric = metrics[currentMetricIndex];
   const currentBackground = backgroundColors[currentMetricIndex];
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   document.body.className = `bg-gradient-to-br ${currentMetric.colorScheme} bg-gradient-animate`;
-  // }, [currentMetric.colorScheme]);
 
   const handlePrevious = () => {
     setCurrentMetricIndex((prev) => (prev > 0 ? prev - 1 : prev));
@@ -53,15 +45,13 @@ export function Dashboard({ metrics, isMobile = false }: Props) {
     console.log("Sharing current metric");
   };
 
-  const handleBackToHome = () => {
-    router.push("/home");
-  };
-
   return (
-    <div className={`h-screen pt-28 bg-gradient-to-br ${currentBackground}`}>
-      <div className="max-w-6xl mx-auto">
-        <Card className="mx-6 bg-white/10 backdrop-blur-lg text-white border-none">
-          <CardHeader>
+    <div
+      className={`h-screen flex flex-col justify-center items-center bg-gradient-to-br ${currentBackground}`}
+    >
+      <div className="max-w-6xl h-[calc(100vh-8rem)] flex flex-col py-5">
+        <Card className="flex-grow mx-6 bg-white/10 backdrop-blur-lg text-white border-none flex flex-col overflow-hidden">
+          <CardHeader className="flex-shrink-0">
             <CardTitle className="text-3xl font-bold">
               {currentMetric.title}
             </CardTitle>
@@ -69,27 +59,28 @@ export function Dashboard({ metrics, isMobile = false }: Props) {
               {currentMetric.description}
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-grow overflow-auto">
             {currentMetric.type === "list" ? (
               <ListStats data={currentMetric.data} />
             ) : (
-              <GridStats data={currentMetric.data} />
+              <GridStats
+                headers={currentMetric.headers}
+                data={currentMetric.data}
+              />
             )}
           </CardContent>
         </Card>
+        <div className="flex-shrink-0 flex justify-center items-center space-x-2 mt-5">
+          {metrics.map((_, index) => (
+            <div
+              key={index}
+              className={`h-2 w-2 rounded-full ${
+                index === currentMetricIndex ? "bg-white" : "bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
       </div>
-      {/* <div className="fixed bottom-24 w-full"> */}
-      <div className="fixed bottom-24 w-full flex justify-center items-center space-x-2">
-        {metrics.map((_, index) => (
-          <div
-            key={index}
-            className={`h-2 w-2 rounded-full ${
-              index === currentMetricIndex ? "bg-white" : "bg-white/50"
-            }`}
-          />
-        ))}
-      </div>
-      {/* </div> */}
       <NavButtons
         onPrevious={handlePrevious}
         onNext={handleNext}
