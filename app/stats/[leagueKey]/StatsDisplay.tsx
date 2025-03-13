@@ -6,7 +6,7 @@ import { dummyData } from "@/dummyData";
 type Props = { leagueKey: string };
 
 export default async function StatsDisplay({ leagueKey }: Props) {
-  const useDummyData = true;
+  const useDummyData = false;
   if (useDummyData) return <Dashboard metrics={dummyData} />;
 
   const session = await getServerSession(authOptions);
@@ -20,6 +20,5 @@ export default async function StatsDisplay({ leagueKey }: Props) {
   });
   if (!response.ok) throw new Error("HTTP status " + response.status);
   const { metrics } = await response.json();
-  console.log(JSON.stringify(metrics));
   return <Dashboard metrics={metrics} />;
 }

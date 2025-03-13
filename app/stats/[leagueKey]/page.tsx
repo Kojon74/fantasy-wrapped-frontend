@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Loading from "./Loading";
-import StatsDisplay from "./StatsDisplay";
+import { Dashboard } from "./Dashboard";
 
 export default async function StatsPage({
   params,
@@ -9,9 +9,10 @@ export default async function StatsPage({
 }) {
   const { leagueKey } = params;
 
+  // TODO: Is the suspense even doing anything?
   return (
     <Suspense fallback={<Loading progress={0} />}>
-      <StatsDisplay leagueKey={leagueKey} />
+      <Dashboard leagueKey={leagueKey} />
     </Suspense>
   );
 }
