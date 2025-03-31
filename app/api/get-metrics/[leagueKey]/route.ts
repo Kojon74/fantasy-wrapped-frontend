@@ -1,8 +1,13 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { auth } from "@/auth";
 import { NextRequest } from "next/server";
 
+export const runtime = "edge"; // 'nodejs' is the default
 export const dynamic = "force-dynamic";
+
+const local = false;
+const domain = local
+  ? "http://localhost:8000"
+  : "https://fantasy-warped-production.up.railway.app";
 
 export async function GET( // TODO: Change to arrow
   req: NextRequest,
@@ -10,7 +15,7 @@ export async function GET( // TODO: Change to arrow
 ) {
   const leagueKey = params.leagueKey;
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session || !session.access_token) {
     throw new Error("Unauthorized");
   }
@@ -20,17 +25,18 @@ export async function GET( // TODO: Change to arrow
     "X-Refresh-Token": session.refresh_token,
   };
 
-  const response = await fetch(`http://127.0.0.1:8000/wrapped/${leagueKey}`, {
+  const response = await fetch(`${domain}/wrapped/${leagueKey}`, {
     headers,
     cache: "no-cache", // TODO: Maybe remove
   });
 
   if (!response.ok) throw new Error("HTTP status " + response.status);
   const encoder = new TextEncoder();
-
+  const reader = response.body.getReader();
   const stream = new ReadableStream({
     async start(controller) {
-      const reader = response.body.getReader();
+      console.log("START", response.body);
+      let buffer = "";
 
       async function push() {
         const { done, value } = await reader.read();
@@ -38,10 +44,18 @@ export async function GET( // TODO: Change to arrow
           controller.close();
           return;
         }
+        buffer += new TextDecoder().decode(value);
+        console.log("Buffer:", buffer);
+
+        if (buffer.endsWith("\n")) {
+          controller.enqueue(encoder.encode(`data: ${buffer}\n\n`));
+          buffer = "";
+        }
 
         // Convert backend data to SSE format
-        const sseData = `data: ${new TextDecoder().decode(value)}\n\n`;
-        controller.enqueue(encoder.encode(sseData));
+        // console.log("SSE Data:", value.byteLength);
+        // const sseData = `data: ${new TextDecoder().decode(value)}\n\n`;
+        // console.log("SSE Data:", sseData);
 
         push(); // Continue reading the stream
       }

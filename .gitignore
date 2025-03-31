@@ -28,3 +28,4 @@ next-env.d.ts
 
 # misc
 localhost*.pem
+.DS_Store

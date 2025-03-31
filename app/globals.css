@@ -29,7 +29,7 @@
 
 body {
   color: white;
-  min-height: 100vh;
+  min-height: 100dvh;
   transition: background 0.5s ease;
 }
 

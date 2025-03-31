@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "./ui/button";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 type Props = {};
 
@@ -10,7 +10,11 @@ function SignInOutButton({}: Props) {
 
   const isAuthenticated = !!session;
 
-  const onSignInOut = () => {};
+  const onSignInOut = () => {
+    if (isAuthenticated) signOut({ callbackUrl: "/" });
+    else signIn("yahoo");
+  };
+
   return (
     <Button onClick={onSignInOut} className="bg-white hover:text-purple-600">
       {isAuthenticated ? "Sign Out" : "Sign In"}

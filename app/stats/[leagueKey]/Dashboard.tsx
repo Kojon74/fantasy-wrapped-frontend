@@ -12,7 +12,6 @@ import { Metric } from "./types";
 import ListStats from "./ListStats";
 import GridStats from "./GridStats";
 import Loading from "./Loading";
-import { useSession } from "next-auth/react";
 
 interface Props {
   leagueKey: string;
@@ -31,14 +30,16 @@ const backgroundColors = [
 
 export function Dashboard({ leagueKey, isMobile = false }: Props) {
   const [currentMetricIndex, setCurrentMetricIndex] = useState(0);
-  const [metrics, setMetrics] = useState([]);
+  const [metrics, setMetrics] = useState<Metric[]>([]);
   const currentMetric = metrics[currentMetricIndex];
   const currentBackground = backgroundColors[currentMetricIndex];
 
   useEffect(() => {
     const eventSource = new EventSource(`/api/get-metrics/${leagueKey}`); // Proxy via Next.js
     eventSource.onmessage = (event) => {
-      // setMessages((prev) => [...prev, event.data]);
+      console.log(event.data);
+      const curMetric = JSON.parse(event.data);
+      setMetrics((prev) => [...prev, ...curMetric]);
     };
 
     eventSource.onerror = () => {

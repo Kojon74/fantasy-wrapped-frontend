@@ -1,8 +1,7 @@
-import { getServerSession } from "next-auth";
 import UserHomeContent from "./UserHomeContent";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import xml2js from "xml2js";
 import { Game } from "./types";
+import { auth } from "@/auth";
 
 const cleanGames = (games: any[]) =>
   games.map(
@@ -25,7 +24,7 @@ const cleanLeagues = (leagues: any[]) =>
   );
 
 export default async function UserHomePage() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session || !session.access_token) return <p>Not logged in</p>;
 
@@ -39,7 +38,11 @@ export default async function UserHomePage() {
       cache: "no-store",
     });
 
-    if (!response.ok) throw new Error("Failed to letch leagues");
+    if (!response.ok) {
+      console.log(response);
+
+      throw new Error("Failed to fetch leagues");
+    }
     const xml = await response.text();
     const parsedXml = await xml2js.parseStringPromise(xml);
     const gamesRaw = parsedXml.fantasy_content.users[0].user[0].games[0].game;

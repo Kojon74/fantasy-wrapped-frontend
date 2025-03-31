@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 type Props = { headers: string[]; data: string[][] };
 
 export default function GridStats({ headers, data }: Props) {
@@ -31,7 +33,7 @@ export default function GridStats({ headers, data }: Props) {
           </div>
         ))}
         {headers.map((teamName, i: number) => (
-          <>
+          <Fragment key={i}>
             <div className="font-bold text-gray-200">{teamName}</div>
             {headers.map((_, j: number) => (
               <div
@@ -43,7 +45,7 @@ export default function GridStats({ headers, data }: Props) {
                 {data[i][j]}
               </div>
             ))}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>

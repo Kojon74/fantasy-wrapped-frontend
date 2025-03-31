@@ -18,15 +18,15 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 flex flex-col items-center justify-center text-white p-4">
+    <div className="h-dvh bg-gradient-to-br from-purple-200 via-pink-500 to-red-500 flex flex-col items-center justify-center text-white p-4">
       <h1 className="text-5xl font-bold mb-6 text-center">Fantasy Wrapped</h1>
       <p className="text-xl mb-8 text-center max-w-2xl">
-        Relive your fantasy season's highs and lows with our AI-powered
-        insights. Discover your league's hidden gems, biggest busts, and
-        everything in between!
+        Relive your fantasy season's highs and lows with in-depth insights.
+        Discover your league's hidden gems, biggest busts, and everything in
+        between!
       </p>
       <Button
-        onClick={() => signIn()}
+        onClick={() => signIn("yahoo")}
         className="text-lg px-8 py-6 bg-white text-purple-600 hover:bg-gray-100 transition-colors"
       >
         Sign In with Yahoo
