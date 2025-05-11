@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { signIn, useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function LandingPage() {
@@ -20,11 +21,18 @@ export default function LandingPage() {
   return (
     <div className="h-dvh bg-gradient-to-br from-purple-200 via-pink-500 to-red-500 flex flex-col items-center justify-center text-white p-4">
       <h1 className="text-5xl font-bold mb-6 text-center">Fantasy Wrapped</h1>
-      <p className="text-xl mb-8 text-center max-w-2xl">
+      <p className="text-xl text-center max-w-2xl">
         Relive your fantasy season's highs and lows with in-depth insights.
         Discover your league's hidden gems, biggest busts, and everything in
         between!
       </p>
+      <Image
+        src="/draft-steal.png"
+        alt="Demo Screenshot"
+        width={500}
+        height={500}
+        className="my-8"
+      />
       <Button
         onClick={() => signIn("yahoo")}
         className="text-lg px-8 py-6 bg-white text-purple-600 hover:bg-gray-100 transition-colors"

@@ -4,17 +4,19 @@ import { Game } from "./types";
 import { auth } from "@/auth";
 
 const cleanGames = (games: any[]) =>
-  games.map(
-    (game) =>
-      Object.fromEntries(
-        Object.entries(game)
-          .map(([key, value]) => [
-            key,
-            key !== "leagues" ? value[0] : cleanLeagues(value[0].league),
-          ])
-          .sort((a, b) => parseInt(b.season) - parseInt(a.season))
-      ) as Game
-  );
+  games
+    .map(
+      (game) =>
+        Object.fromEntries(
+          Object.entries(game)
+            .map(([key, value]) => [
+              key,
+              key !== "leagues" ? value[0] : cleanLeagues(value[0].league),
+            ])
+            .sort((a, b) => parseInt(b.season) - parseInt(a.season))
+        ) as Game
+    )
+    .reverse();
 
 const cleanLeagues = (leagues: any[]) =>
   leagues.map((league) =>
@@ -47,6 +49,10 @@ export default async function UserHomePage() {
     const parsedXml = await xml2js.parseStringPromise(xml);
     const gamesRaw = parsedXml.fantasy_content.users[0].user[0].games[0].game;
     const games = cleanGames(gamesRaw);
+    console.log(
+      "Games:",
+      games.map((game) => game.leagues)
+    );
 
     return <UserHomeContent games={games} />;
   } catch (error) {
