@@ -18,6 +18,10 @@ export default function LandingPage() {
     return null;
   }
 
+  const viewDemo = () => {
+    router.push("/stats/demo");
+  };
+
   return (
     <div className="h-dvh bg-gradient-to-br from-purple-200 via-pink-500 to-red-500 flex flex-col items-center justify-center text-white p-4">
       <h1 className="text-5xl font-bold mb-6 text-center">Fantasy Wrapped</h1>
@@ -35,9 +39,15 @@ export default function LandingPage() {
       />
       <Button
         onClick={() => signIn("yahoo")}
-        className="text-lg px-8 py-6 bg-white text-purple-600 hover:bg-gray-100 transition-colors"
+        className="my-1 text-lg w-44 py-6 bg-white text-purple-600 hover:bg-gray-100 transition-colors"
       >
         Sign In with Yahoo
+      </Button>
+      <Button
+        onClick={viewDemo}
+        className="my-1 text-lg w-44 py-6 bg-transparent border-2 text-white hover:bg-gray-100 hover:bg-opacity-20 transition-colors"
+      >
+        Try a Demo
       </Button>
     </div>
   );

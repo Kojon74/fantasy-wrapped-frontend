@@ -14,28 +14,35 @@ export async function GET( // TODO: Change to arrow
   { params }: { params: { leagueKey: string } }
 ) {
   const leagueKey = params.leagueKey;
+  let response;
 
-  const session = await auth();
-  if (!session || !session.access_token) {
-    throw new Error("Unauthorized");
+  if (leagueKey === "demo") {
+    const demoLeagueKey = "427.l.97108";
+    response = await fetch(`${domain}/wrapped/${demoLeagueKey}`, {
+      cache: "no-cache", // Required, caching causes buffering
+    });
+  } else {
+    const session = await auth();
+    if (!session || !session.access_token) {
+      throw new Error("Unauthorized");
+    }
+
+    const headers = {
+      Authorization: `Bearer ${session.access_token}`,
+      "X-Refresh-Token": session.refresh_token,
+    };
+
+    response = await fetch(`${domain}/wrapped/${leagueKey}`, {
+      headers,
+      cache: "no-cache", // Required, caching causes buffering
+    });
   }
-
-  const headers = {
-    Authorization: `Bearer ${session.access_token}`,
-    "X-Refresh-Token": session.refresh_token,
-  };
-
-  const response = await fetch(`${domain}/wrapped/${leagueKey}`, {
-    headers,
-    cache: "no-cache", // TODO: Maybe remove
-  });
 
   if (!response.ok) throw new Error("HTTP status " + response.status);
   const encoder = new TextEncoder();
   const reader = response.body.getReader();
   const stream = new ReadableStream({
     async start(controller) {
-      console.log("START", response.body);
       let buffer = "";
 
       async function push() {
@@ -45,21 +52,12 @@ export async function GET( // TODO: Change to arrow
           return;
         }
         buffer += new TextDecoder().decode(value);
-        console.log("Buffer:", buffer);
-
         if (buffer.endsWith("\n")) {
           controller.enqueue(encoder.encode(`data: ${buffer}\n\n`));
           buffer = "";
         }
-
-        // Convert backend data to SSE format
-        // console.log("SSE Data:", value.byteLength);
-        // const sseData = `data: ${new TextDecoder().decode(value)}\n\n`;
-        // console.log("SSE Data:", sseData);
-
         push(); // Continue reading the stream
       }
-
       push(); // Start reading from backend stream
     },
   });

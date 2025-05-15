@@ -37,9 +37,10 @@ export function Dashboard({ leagueKey, isMobile = false }: Props) {
   useEffect(() => {
     const eventSource = new EventSource(`/api/get-metrics/${leagueKey}`); // Proxy via Next.js
     eventSource.onmessage = (event) => {
-      console.log(event.data);
-      const curMetric = JSON.parse(event.data);
-      setMetrics((prev) => [...prev, ...curMetric]);
+      if (event.data !== "Test") {
+        const curMetric = JSON.parse(event.data);
+        setMetrics((prev) => [...prev, ...curMetric]);
+      }
     };
 
     eventSource.onerror = () => {

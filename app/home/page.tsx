@@ -41,18 +41,12 @@ export default async function UserHomePage() {
     });
 
     if (!response.ok) {
-      console.log(response);
-
       throw new Error("Failed to fetch leagues");
     }
     const xml = await response.text();
     const parsedXml = await xml2js.parseStringPromise(xml);
     const gamesRaw = parsedXml.fantasy_content.users[0].user[0].games[0].game;
     const games = cleanGames(gamesRaw);
-    console.log(
-      "Games:",
-      games.map((game) => game.leagues)
-    );
 
     return <UserHomeContent games={games} />;
   } catch (error) {

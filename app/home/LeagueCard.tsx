@@ -20,6 +20,10 @@ const scoringTypeName = {
 const LeagueCard = ({ league }: Props) => {
   const router = useRouter();
 
+  const leagueScoringTypeName =
+    scoringTypeName[league.scoring_type as keyof typeof scoringTypeName] ??
+    "Other League";
+
   const checkAnalysisAvailable = () => {
     if (league.scoring_type !== "headpoint") return "League not supported";
     if (league.is_finished === "0") return "League still in progress";
@@ -39,7 +43,7 @@ const LeagueCard = ({ league }: Props) => {
           Team: {league.name}
         </CardDescription>
         <CardDescription className="text-gray-200">
-          {scoringTypeName.get(league.scoring_type, "Other League")}
+          {leagueScoringTypeName}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -47,7 +51,7 @@ const LeagueCard = ({ league }: Props) => {
           onClick={() => handleLeagueSelect(league.league_key)}
           className="w-full bg-white text-purple-600 hover:bg-gray-100"
         >
-          {!!analysisDisabled ? "View Wrapped" : analysisDisabled}
+          {!!analysisDisabled ? analysisDisabled : "View Wrapped"}
         </Button>
       </CardContent>
     </Card>
