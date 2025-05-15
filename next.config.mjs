@@ -23,12 +23,14 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
-  devServer: {
-    https: {
-      key: fs.readFileSync("./localhost-key.pem"),
-      cert: fs.readFileSync("./localhost.pem"),
+  ...(process.env.NODE_ENV === "development" && {
+    devServer: {
+      https: {
+        key: fs.readFileSync("./localhost-key.pem"),
+        cert: fs.readFileSync("./localhost.pem"),
+      },
     },
-  },
+  }),
 };
 
 mergeConfig(nextConfig, userConfig);
