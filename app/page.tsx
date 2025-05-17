@@ -1,5 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { TRACKING_SIGN_IN_CLICK } from "@/constants/tracking";
+import { analytics } from "@/lib/firebase";
+import { logEvent } from "firebase/analytics";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -22,6 +25,11 @@ export default function LandingPage() {
     router.push("/stats/demo");
   };
 
+  const handleClickSignIn = () => {
+    logEvent(analytics, TRACKING_SIGN_IN_CLICK, { provider: "yahoo" });
+    signIn("yahoo");
+  };
+
   return (
     <div className="h-dvh bg-gradient-to-br from-purple-200 via-pink-500 to-red-500 flex flex-col items-center justify-center text-white p-4">
       <h1 className="text-5xl font-bold mb-6 text-center">Fantasy Wrapped</h1>
@@ -38,7 +46,7 @@ export default function LandingPage() {
         className="my-8"
       />
       <Button
-        onClick={() => signIn("yahoo")}
+        onClick={handleClickSignIn}
         className="my-1 text-lg w-44 py-6 bg-white text-purple-600 hover:bg-gray-100 transition-colors"
       >
         Sign In with Yahoo
